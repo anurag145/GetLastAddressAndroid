@@ -10,7 +10,14 @@
     tools:context="com.github.anurag145.getlastaddress.MainActivity">
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Get Location"
+        android:layout_centerInParent="true"
+        android:onClick="getLocation"/>
 </RelativeLayout>
