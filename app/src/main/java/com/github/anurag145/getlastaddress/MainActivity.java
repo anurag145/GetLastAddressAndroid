@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
      private TextView textView;
     private Button button;
      private  NetworkInfo activeNetwork;
-
+    GoogleApiClient mGoogleApiClient;
     private int PERMISSION_CODE_1 = 23;
     public static final String PACKAGE_NAME =
             "com.github.anurag145.getlastaddress";
