@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,9 +13,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 public class MainActivity extends AppCompatActivity {
      private TextView textView;
     private Button button;
+    AddressResultReceiver mResultReceiver;
+    private int location =1;
      private  NetworkInfo activeNetwork;
     GoogleApiClient mGoogleApiClient;
     private int PERMISSION_CODE_1 = 23;
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+        mResultReceiver = new AddressResultReceiver(null);
+        setupGoogleApiClient();
 
         textView=(TextView)findViewById(R.id.textView);
         button=(Button)findViewById(R.id.button);
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(networkstate(getApplicationContext()))
                 {
+
 
                 }
             }
