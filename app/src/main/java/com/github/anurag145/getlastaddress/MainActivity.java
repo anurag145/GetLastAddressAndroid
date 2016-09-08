@@ -1,11 +1,12 @@
 package com.github.anurag145.getlastaddress;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.ResultReceiver;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         mResultReceiver = new AddressResultReceiver(null);
-        setupGoogleApiClient();
+
 
         textView=(TextView)findViewById(R.id.textView);
         button=(Button)findViewById(R.id.button);
@@ -81,5 +82,48 @@ public class MainActivity extends AppCompatActivity {
         return activeNetwork!=null&&activeNetwork.isConnectedOrConnecting();
 
     }
+
+    public class AddressResultReceiver  extends android.support.v4.os.ResultReceiver {
+
+
+
+        public static final int SUCCESS_RESULT = 0;
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+
+        @Override
+        protected void onReceiveResult(int resultCode, final Bundle resultData) {
+            if (resultCode ==SUCCESS_RESULT) {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result",resultData.getString(RESULT_DATA_KEY));
+                        setResult(location,returnIntent);
+                        finish();
+
+                    }
+                });
+            }
+            else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result",resultData.getString(RESULT_DATA_KEY));
+                        setResult(location,returnIntent);
+                        finish();
+
+                    }
+                });
+            }
+        }
+    }
+
+
 
 }
