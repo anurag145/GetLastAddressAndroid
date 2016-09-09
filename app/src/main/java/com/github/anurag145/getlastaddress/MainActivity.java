@@ -8,11 +8,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +23,8 @@ import com.google.android.gms.location.LocationServices;
 
 public class MainActivity extends AppCompatActivity {
      private TextView textView;
-    private Button button;
+     private ProgressBar progressBar;
     AddressResultReceiver mResultReceiver;
-    private int location =1;
      private  NetworkInfo activeNetwork;
     GoogleApiClient mGoogleApiClient;
     private int PERMISSION_CODE_1 = 23;
@@ -54,30 +54,32 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }
+            progressBar= (ProgressBar)findViewById(R.id.progressBar);
         mResultReceiver = new AddressResultReceiver(null);
         setupGoogleApiClient();
 
         textView=(TextView)findViewById(R.id.textView);
-        button=(Button)findViewById(R.id.button);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(networkstate(getApplicationContext()))
-                {
 
 
-                }
-            }
-        });
 
 
+    }
+
+    public void onClick(View view)
+    {
+        if(networkstate(getApplicationContext()))
+        {
+              textView.setVisibility(View.INVISIBLE);
+              progressBar.setVisibility(View.VISIBLE);
+
+                           getLocation(view);
+
+        }
     }
     GoogleApiClient.ConnectionCallbacks mConnectionCallbacks =  new GoogleApiClient.ConnectionCallbacks()
     {    @Override    public void onConnected(Bundle bundle)
     {
-        View view=findViewById(R.id.location);
-        getLocation(view);
+        Toast.makeText(getApplicationContext(),"ApiClient connected",Toast.LENGTH_LONG).show();
     }
         @Override
         public void onConnectionSuspended(int i) {} };
@@ -113,10 +115,8 @@ public class MainActivity extends AppCompatActivity {
 
             } else {
                 /*
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result","Location unavailable ,try turning on the location service");
-                setResult(location,returnIntent);
-                finish();
+                Handle Location services if turned off here
+
                 */
             }
         }    catch (SecurityException e)
@@ -138,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public class AddressResultReceiver  extends android.support.v4.os.ResultReceiver {
+    public class AddressResultReceiver  extends ResultReceiver {
 
-       public AddressResultReceiver(Handler handler) {
+        public AddressResultReceiver(Handler handler) {
             super(handler);
         }
 
@@ -153,8 +153,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        textView.setText(resultData.getString(RESULT_DATA_KEY));
 
+
+                        textView.setText(resultData.getString(RESULT_DATA_KEY));
+                        progressBar.setVisibility(View.INVISIBLE);
+                        textView.setVisibility(View.VISIBLE);
 
                     }
                 });

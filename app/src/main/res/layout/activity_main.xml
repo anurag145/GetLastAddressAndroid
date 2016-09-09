@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/textView"
-        android:text="Hello"
+        android:text="Find Your Location"
         android:textSize="30sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
@@ -20,12 +20,21 @@
         android:layout_marginTop="124dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+       <ProgressBar
+        android:id="@+id/progressBar"
+        android:foregroundGravity="center_horizontal"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+           android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Get Location"
-        android:onClick="getLocation"
+        android:onClick="onClick"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp" />
